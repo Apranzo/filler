@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/01 18:15:58 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/08 21:25:42 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/10 19:53:26 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 typedef	struct		s_xy
 {
-	int				x;
-	int				y;
+	unsigned		x;
+	unsigned		y;
 }					t_xy;
 
 typedef struct		s_player
@@ -38,7 +38,6 @@ typedef struct		s_cel
 
 typedef struct		s_field
 {
-	char 			**raw;
 	t_cel			***cels;
 	unsigned 		width;
 	unsigned 		height;
@@ -47,8 +46,8 @@ typedef struct		s_field
 
 typedef struct		s_piece
 {
-	char 			**raw;
-	int 			amount;
+	unsigned 		width;
+	unsigned 		height;
 	t_xy			**crd;
 }					t_piece;
 
@@ -64,6 +63,7 @@ typedef struct		s_game
 
 t_xy				*ft_xynw(int x, int y);
 void				calc_heat(t_game *game, t_cel *cel);
-long				fill_heatmap(t_game *game);
+void				fill_heatmap(t_game *game);
+t_xy				fill_token(t_game *game, t_piece *piece)
 
 #endif

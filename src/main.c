@@ -17,28 +17,27 @@ void			plrs_cnst(char *str, t_game *game)
 	free(uid);
 }
 
-void 			cls_cnst(t_game *game)
+void 			cls_cnst(t_game *game, char **raw)
 {
 	int			i;
 	int			k;
 	t_cel		***cls;
 
 	i = 0;
-	cls = game->field->cels;
-	while (game->field->raw[i])
+	while ((cls = game->field->cels) && raw[i])
 	{
 		k = 0;
 		cls[i] = ft_tmalloc(sizeof(t_cel*), game->field->width);
-		while (game->field->raw[i][k])
+		while (raw[i][k])
 		{
 			if (!(cls[i][k] = (t_cel*)malloc(sizeof(t_cel))))
 				ft_error("Malloc error", -1);
 			cls[i][k]->coord = ft_xynw(i, k);
-			if (game->field->raw[i][k] == '.')
+			if (raw[i][k] == '.')
 				cls[i][k]->content = NULL;
-			else if (ft_tolower(game->field->raw[i][k]) == game->enemy->letter)
+			else if (ft_tolower(raw[i][k]) == game->enemy->letter)
 				cls[i][k]->content = game->enemy;
-			else if (ft_tolower(game->field->raw[i][k]) == game->you->letter)
+			else if (ft_tolower(raw[i][k]) == game->you->letter)
 				cls[i][k]->content = game->you;
 			else
 				ft_error("Wrong map", -1);
@@ -53,6 +52,7 @@ void 			fld_cnst(int fd, t_game *game)
 	char		**tmp;
 	char		*line;
 	int 		i;
+	char 		**raw;
 
 	if (!(game->field = (t_field *)malloc(sizeof(t_field))))
 		ft_error("Malloc error", -1);
@@ -61,38 +61,99 @@ void 			fld_cnst(int fd, t_game *game)
 	game->field->height = ft_atoi(tmp[1]);
 	game->field->width = ft_atoi(tmp[2]);
 	ft_freematr(tmp);
-	game->field->raw = ft_tmemalloc(sizeof(char *), game->field->height + 1);
+	raw = ft_tmemalloc(sizeof(char *), game->field->height + 1);
 	ft_gnl(fd, &line);
 	free(line);
 	i = 0;
 	while (i < game->field->height && ft_gnl(fd, &line) > 0)
 	{
-		game->field->raw[i] = line + FILD_OFFSET;
+		raw[i] = line + FILD_OFFSET;
 		i++;
 	}
 	if (!(game->field->cels = ft_tmalloc(sizeof(t_cel*), game->field->height)))
 		ft_error("Malloc error", -1);
-	cls_cnst(game);
+	cls_cnst(game, raw);
+	i = 0;
+	while (raw[i])
+	{
+		free(raw[i] - FILD_OFFSET);
+		i++;
+	}
 }
 
-int			main() {
+t_piece			*piece_cnst(int fd, t_game *game)
+{
+	t_piece		*piece;
+	int 		x;
+	int 		y;
+	int 		i;
+	char 		*line;
+	char 		*num;
 
-	char	*line;
-	t_game	*game;
+	i = 0;
+	if (ft_gnl(fd, &line) <= 0)
+		ft_error("Piece line is empty", -1);
+	if (!(num = ft_strsplbyindex(line, ' ', 1)))
+		ft_error("Malloc error", -1);
+	x = ft_atoi(num);
+	free(num);
+	if (!(num = ft_strsplbyindex(line, ' ', 1)))
+		ft_error("Malloc error", -1);
+	y = ft_atoi(num);
+	free(num);
+	if (x <= 0 || y <= 0)
+		ft_error("Wrong piece size", -1);
+	if (!(piece = malloc(sizeof(t_piece))))
+		ft_error("Malloc error", -1);
+	if (!(piece->crd = ft_tmemalloc(sizeof(t_xy*), x * y)))
+		ft_error("Malloc error", -1);
+	piece->width = y;
+	piece->height = x;
+	while (--x)
+	{
+		y = piece->width;
+		if (ft_gnl(fd, &line) <= 0)
+			ft_error("Piece line is not exists", -1);
+		while (--y)
+		{
+			if (line[y] == '*')
+				piece->crd[i++] = ft_xynw(x, y);
+		}
+	}
+	if (!*(piece->crd))
+		ft_error("Piece is empty", -1);
+	return (piece);
+}
+
+void			field_dstr(t_field *field)
+{
+
+}
+
+void			piec_dstr(t_piece *piece)
+{
+	while ( piece->crd)
+		free(piece->crd++);
+	free(piece);
+}
+
+int				main(void) {
+
+	char		*line;
+	t_game		*game;
+	t_xy		step;
+	t_piece		*piece;
 
 	game = (t_game *)malloc(sizeof(t_game));
-	int fd = open("out2", O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
 	ft_gnl(0, &line);
 	plrs_cnst(line, game);
 	free(line);
 	fld_cnst(0, game);
 	fill_heatmap(game);
-
-//	ft_vfprintf(fd, "p1:%u\t", game->pls[0].number);
-//	ft_vfprintf(fd, "p2:%u\n", game->pls[1].number);
-//	ft_vfprintf(fd, "fh:%u\tfw:%u\n", game->field->height, game->field->width);
-	ft_putstrss_fd(game->field->raw, -1, 0);
-	ft_vfprintf(STDOUT_FILENO, "12 14\n");
+	piece = piece_cnst(0, game);
+	step = fill_token(game, piece);
+	piec_dstr(piece);
+	ft_vfprintf(STDOUT_FILENO, "%d %d\n", step.x, step.y);
 	while (ft_gnl(STDIN_FILENO, &line) > 0)
 	{
 		ft_vfprintf(fd, "%s\n", line);

@@ -37,7 +37,7 @@ void 		calc_heat(t_game *game, t_cel *cel)
 	}
 }
 
-long 		fill_heatmap(t_game *game)
+void 		fill_heatmap(t_game *game)
 {
 
 	long	i;
@@ -54,5 +54,4 @@ long 		fill_heatmap(t_game *game)
 		}
 		i++;
 	}
-	return (min_dist);
 }

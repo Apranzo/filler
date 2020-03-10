@@ -6,39 +6,55 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 21:06:39 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/08 22:04:03 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/10 19:55:52 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/filler.h"
 
-void 		fill_token(t_game *game, t_piece *piece)
+static long		put_token(const t_game *game, t_xy **crd, t_xy *xy)
 {
+	long		i;
+	long		heat;
+	int		docking;
 
-	long	i;
-	long	k;
-	long	h;
+	heat = 0;
+	i = 0;
+	docking = 0;
+	while (crd[i])
+	{
+		if (crd[i]->x + xy->x > game->field->height || crd[i]->y + xy->y > game->field->height)
+			return (0) ;
+		if (game->field->cels[crd[i]->x + xy->x][crd[i]->y + xy->y]->content != game->enemy)
+			heat += game->field->cels[crd[i]->x + xy->x][crd[i]->y + xy->y]->heat;
+		if (game->field->cels[crd[i]->x + xy->x][crd[i]->y + xy->y]->content != game->you)
+			docking = 1;
+		i++;
+	}
+	return (docking ? heat : docking);
+}
+
+t_xy 		fill_token(t_game *game, t_piece *piece)
+{
+	t_xy	solution;
+	long	x;
+	long	y;
 	long	heat;
 	long	min_heat;
 
-	i = 0;
-	heat = 0;
-	while (i < game->field->height)
+	x = 0;
+	solution = (t_xy){ game->field->height, game->field->width };
+	min_heat = game->field->height;
+	while (x < game->field->height)
 	{
-		k = 0;
-		while (k < game->field->width)
+		y = 0;
+		while (y < game->field->width)
 		{
-			h = 0;
-			while (piece->amount < h)
-			{
-				if (piece->crd[h]->x + i > game->field->height || piece->crd[h]->y + k > game->field->height)
-					break ;
-				if (game->field->cels[piece->crd[h]->x + i][piece->crd[h]->y + k]->content != game->enemy)
-					heat += game->field->cels[piece->crd[h]->x + i][piece->crd[h]->y + k]->heat;
-			}
-
-			k++;
+			heat = put_token(game, piece->crd, game->field->cels[x][y]->coord);
+			solution = heat && heat < min_heat ? (t_xy){x, y} : solution;
+			y++;
 		}
-		i++;
+		x++;
 	}
+	return solution;
 }
