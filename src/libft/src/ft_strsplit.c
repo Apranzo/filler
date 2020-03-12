@@ -6,7 +6,7 @@
 /*   By: cshinoha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 22:00:18 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/08 19:38:49 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/12 17:58:12 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,33 @@ static char			*ft_storeword(char const *s, char c)
 	return (tmp);
 }
 
-
-char			**ft_strsplit(char const *s, char border)
+char				**ft_strsplit(char const *s, char c)
 {
-	char		**matrix;
-	size_t		howmany;
+	unsigned int	words;
+	unsigned int	nofword;
+	char			**tab;
 
-	while (*s == border)
-		s++;
-	howmany = ft_countwords(s, border);
-	if (!(matrix = (char **)malloc(sizeof(char *) * (howmany + 1))))
+	if (!s)
 		return (NULL);
-	if (!howmany)
-		matrix[0] = NULL;
-	else
-		ft_spliting(s, matrix, border);
-	return (matrix);
+	nofword = 0;
+	words = ft_cntwords(s, c);
+	if (!(tab = (char **)ft_memalloc(sizeof(char *) * (words + 1))))
+		return (NULL);
+	while (*s != '\0')
+	{
+		if (*s != c)
+		{
+			if (!(tab[nofword] = ft_storeword(s, c)))
+				return (NULL);
+			nofword++;
+			while (*s != '\0' && *s != c)
+				s++;
+		}
+		else
+			s++;
+	}
+	tab[nofword] = 0;
+	return (tab);
 }
 
 char				*ft_strsplbyindex(char const *s, char c, int index)

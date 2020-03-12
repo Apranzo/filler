@@ -47,7 +47,7 @@ void 			cls_cnst(t_game *game, char **raw)
 	}
 }
 
-void 			fld_cnst(int fd, t_game *game)
+int 			fld_cnst(int fd, t_game *game)
 {
 	char		**tmp;
 	char		*line;
@@ -56,7 +56,9 @@ void 			fld_cnst(int fd, t_game *game)
 
 	if (!(game->field = (t_field *)malloc(sizeof(t_field))))
 		ft_error("Malloc error", -1);
-	ft_gnl(fd, &line);
+	if ((i = ft_gnl(fd, &line)) <= 0)
+		return (i);
+	ft_printf(line);
 	tmp = ft_strsplit(line, ' ');
 	game->field->height = ft_atoi(tmp[1]);
 	game->field->width = ft_atoi(tmp[2]);
@@ -79,6 +81,7 @@ void 			fld_cnst(int fd, t_game *game)
 		free(raw[i] - FILD_OFFSET);
 		i++;
 	}
+	return (1);
 }
 
 t_piece			*piece_cnst(int fd, t_game *game)
@@ -97,7 +100,7 @@ t_piece			*piece_cnst(int fd, t_game *game)
 		ft_error("Malloc error", -1);
 	x = ft_atoi(num);
 	free(num);
-	if (!(num = ft_strsplbyindex(line, ' ', 1)))
+	if (!(num = ft_strsplbyindex(line, ' ', 2)))
 		ft_error("Malloc error", -1);
 	y = ft_atoi(num);
 	free(num);
@@ -109,12 +112,12 @@ t_piece			*piece_cnst(int fd, t_game *game)
 		ft_error("Malloc error", -1);
 	piece->width = y;
 	piece->height = x;
-	while (--x)
+	while (x--)
 	{
 		y = piece->width;
 		if (ft_gnl(fd, &line) <= 0)
 			ft_error("Piece line is not exists", -1);
-		while (--y)
+		while (y--)
 		{
 			if (line[y] == '*')
 				piece->crd[i++] = ft_xynw(x, y);
@@ -148,20 +151,15 @@ int				main(void) {
 	ft_gnl(0, &line);
 	plrs_cnst(line, game);
 	free(line);
-	fld_cnst(0, game);
-	fill_heatmap(game);
-	piece = piece_cnst(0, game);
-	step = fill_token(game, piece);
-	piec_dstr(piece);
-	ft_vfprintf(STDOUT_FILENO, "%d %d\n", step.x, step.y);
-	while (ft_gnl(STDIN_FILENO, &line) > 0)
+	while (1)
 	{
-		ft_vfprintf(fd, "%s\n", line);
-		while (ft_gnl(STDIN_FILENO, &line) > 0)
-		{
-			ft_vfprintf(fd, "%s\n", line);
-		}
-		ft_vfprintf(STDOUT_FILENO, "12 14\n");
+		if (!fld_cnst(0, game))
+			break ;
+		fill_heatmap(game);
+		piece = piece_cnst(0, game);
+		step = fill_token(game, piece);
+		piec_dstr(piece);
+		ft_vfprintf(STDOUT_FILENO, "%d %d\n", step.x, step.y);
 	}
 	return 0;
 }

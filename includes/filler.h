@@ -64,6 +64,6 @@ typedef struct		s_game
 t_xy				*ft_xynw(int x, int y);
 void				calc_heat(t_game *game, t_cel *cel);
 void				fill_heatmap(t_game *game);
-t_xy				fill_token(t_game *game, t_piece *piece)
+t_xy				fill_token(t_game *game, t_piece *piece);
 
 #endif
