@@ -23,7 +23,7 @@ static long		put_token(const t_game *game, t_xy **crd, t_xy *xy)
 	docking = 0;
 	while (crd[i])
 	{
-		if (crd[i]->x + xy->x > game->field->height || crd[i]->y + xy->y > game->field->height)
+		if (crd[i]->x + xy->x >=game->field->height || crd[i]->y + xy->y >= game->field->width)
 			return (0) ;
 		if (game->field->cels[crd[i]->x + xy->x][crd[i]->y + xy->y]->content != game->enemy)
 			heat += game->field->cels[crd[i]->x + xy->x][crd[i]->y + xy->y]->heat;

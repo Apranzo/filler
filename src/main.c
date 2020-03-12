@@ -27,10 +27,10 @@ void 			cls_cnst(t_game *game, char **raw)
 	while ((cls = game->field->cels) && raw[i])
 	{
 		k = 0;
-		cls[i] = ft_tmalloc(sizeof(t_cel*), game->field->width);
+		!cls[i] && (cls[i] = ft_tmemalloc(sizeof(t_cel*), game->field->width));
 		while (raw[i][k])
 		{
-			if (!(cls[i][k] = (t_cel*)malloc(sizeof(t_cel))))
+			if (!cls[i][k] && !(cls[i][k] = (t_cel*)malloc(sizeof(t_cel))))
 				ft_error("Malloc error", -1);
 			cls[i][k]->coord = ft_xynw(i, k);
 			if (raw[i][k] == '.')
@@ -58,7 +58,7 @@ int 			fld_cnst(int fd, t_game *game)
 		ft_error("Malloc error", -1);
 	if ((i = ft_gnl(fd, &line)) <= 0)
 		return (i);
-	ft_printf(line);
+	ft_printf("\n%s\n", line);
 	tmp = ft_strsplit(line, ' ');
 	game->field->height = ft_atoi(tmp[1]);
 	game->field->width = ft_atoi(tmp[2]);
@@ -72,7 +72,7 @@ int 			fld_cnst(int fd, t_game *game)
 		raw[i] = line + FILD_OFFSET;
 		i++;
 	}
-	if (!(game->field->cels = ft_tmalloc(sizeof(t_cel*), game->field->height)))
+	if (!(game->field->cels = ft_tmemalloc(sizeof(t_cel*), game->field->height)))
 		ft_error("Malloc error", -1);
 	cls_cnst(game, raw);
 	i = 0;
@@ -93,7 +93,6 @@ t_piece			*piece_cnst(int fd, t_game *game)
 	char 		*line;
 	char 		*num;
 
-	i = 0;
 	if (ft_gnl(fd, &line) <= 0)
 		ft_error("Piece line is empty", -1);
 	if (!(num = ft_strsplbyindex(line, ' ', 1)))
@@ -112,16 +111,19 @@ t_piece			*piece_cnst(int fd, t_game *game)
 		ft_error("Malloc error", -1);
 	piece->width = y;
 	piece->height = x;
-	while (x--)
+	i = 0;
+	while (x)
 	{
 		y = piece->width;
 		if (ft_gnl(fd, &line) <= 0)
 			ft_error("Piece line is not exists", -1);
-		while (y--)
+		while (y)
 		{
 			if (line[y] == '*')
 				piece->crd[i++] = ft_xynw(x, y);
+			y--;
 		}
+		x--;
 	}
 	if (!*(piece->crd))
 		ft_error("Piece is empty", -1);
@@ -135,8 +137,8 @@ void			field_dstr(t_field *field)
 
 void			piec_dstr(t_piece *piece)
 {
-	while ( piece->crd)
-		free(piece->crd++);
+	while (*piece->crd)
+		free(*piece->crd++);
 	free(piece);
 }
 

@@ -28,7 +28,7 @@ void	*ft_tmemalloc(size_t type_size, size_t amount)
 
 	area = malloc(type_size * amount);
 	if (area)
-		ft_bzero(area, type_size);
+		ft_bzero(area, type_size * amount);
 	return (area);
 }
 

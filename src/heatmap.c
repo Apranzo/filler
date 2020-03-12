@@ -19,7 +19,7 @@ void 		calc_heat(t_game *game, t_cel *cel)
 	long	k;
 	long	dist;
 
-	cel->heat = 0;
+	cel->heat = game->field->height;
 	i = 0;
 	while (i < game->field->height)
 	{
