@@ -12,12 +12,12 @@
 
 #include "../includes/filler.h"
 
-t_xy		*ft_xynw(int x, int y)
+t_xy		*ft_xynw(unsigned x, unsigned y)
 {
 	t_xy	*new;
 
 	if (!(new = malloc(sizeof(t_xy))))
-		return (0);
+		ft_error("Malloc error", -1);
 	new->x = x;
 	new->y = y;
 	return (new);

@@ -46,7 +46,7 @@ char				**ft_strsplit(char const *s, char c)
 		return (NULL);
 	nofword = 0;
 	words = ft_cntwords(s, c);
-	if (!(tab = (char **)ft_memalloc(sizeof(char *) * (words + 1))))
+	if (!(tab = (char **)ft_tmalloc(sizeof(char *), words + 1)))
 		return (NULL);
 	while (*s != '\0')
 	{

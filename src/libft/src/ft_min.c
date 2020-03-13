@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshinoha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/06 20:18:27 by cshinoha          #+#    #+#             */
-/*   Updated: 2019/04/27 16:18:48 by cshinoha         ###   ########.fr       */
+/*   Created: 2020/02/27 14:17:11 by cshinoha          #+#    #+#             */
+/*   Updated: 2020/02/27 14:17:11 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void				*ft_memset(void *d, int c, size_t len)
+intmax_t		ft_min(intmax_t x, intmax_t y)
 {
-	unsigned char	*t;
-
-	t = (unsigned char *)d;
-	while (len--)
-		*(t++) = (unsigned char)c;
-	return (d);
+	return (x < y ? x : y);
 }

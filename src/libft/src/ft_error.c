@@ -12,13 +12,13 @@
 
 #include "../include/libft.h"
 
-void		ft_error_fd(int fd, char *mes, int code)
+int		ft_error_fd(int fd, char *mes, int code)
 {
 	write(fd, mes, ft_strlen(mes));
 	exit(code);
 }
 
-void		ft_error(char *mes, int code)
+int		ft_error(char *mes, int code)
 {
-	ft_error_fd(2, mes, code);
+	return (ft_error_fd(2, mes, code));
 }

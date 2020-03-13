@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:42:59 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/04 16:40:10 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/13 20:02:49 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,23 @@ typedef struct		s_statement
 	int				fd;
 }					t_stmt;
 
+int					ft_error(char *mes, int code);
+int					ft_error_fd(int fd, char *mes, int code);
 void				*ft_tmemalloc(size_t type_size, size_t amount);
 void				*ft_tmalloc(size_t type_size, size_t amount);
 char				*ft_strsplbyindex(char const *s, char c, int index);
 intmax_t			ft_abs(intmax_t n);
 void				ft_lstfree(t_list *node, size_t len);
-void				ft_error_fd(int fd, char *mes, int code);
 t_list				*ft_lstpush(t_list **begin_list,
 									void *content,
 									size_t content_size);
 int					ft_gnl(int fd, char **line);
-void				ft_error(char *mes, int code);
 t_list				*ft_lstnew(void const *content, size_t content_size);
 char				**ft_freematr(char **matr);
 char				*ft_memcpy(void *dst, const void *src, size_t len);
 void				ft_bzero(void *dst, size_t len);
-char				*ft_memset(void *dst, int c, size_t len);
+intmax_t			ft_min(intmax_t x, intmax_t y);
+void				*ft_memset(void *dst, int c, size_t len);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t len);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memchr(const void *s, int c, size_t n);
