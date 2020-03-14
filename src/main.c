@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 20:43:54 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/14 16:22:38 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/14 20:38:33 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void 			pr(t_cel ***cls)
 	int i = 0;
 	int k = 0;
 	unsigned heat;
-	int fd = open("heatmap",  O_RDWR | O_CREAT, 0666);
+	int fd = open("heatmap",  O_RDWR | O_APPEND | O_CREAT, 0777);
+	ft_vfprintf(fd, "\n\n");
 	while (cls[i])
 	{
 		k = 0;
@@ -45,9 +46,12 @@ int					main(void) {
 		if (!field_cnst(0, &game))
 			break ;
 		fill_heatmap(&game);
-		pr(game.field.cels);
+//		pr(game.field.cels);
 		step = fill_piece(game, piece_cnst(0));
-		ft_vfprintf(STDOUT_FILENO, "%d %d\n", step.x, step.y);
+		ft_putnbr_fd(STDOUT_FILENO, step.x);
+		ft_putchar_fd(STDOUT_FILENO, ' ');
+		ft_putnbr_fd(STDOUT_FILENO, step.y);
+		ft_putchar_fd(STDOUT_FILENO, '\n');
 	}
 	return 0;
 }

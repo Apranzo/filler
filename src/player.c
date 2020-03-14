@@ -24,7 +24,7 @@ void				plrs_cnst(char *str, t_game *game)
 	game->you = you;
 	game->enemy = enemy;
 	game->you.number = (uid[1] - '0') / 1u;
-	game->you.letter = game->you.number % 2u ? 'x' : 'o';
+	game->you.letter = game->you.number % 2u ? 'o' : 'x';
 	game->enemy.number = game->you.number % 2u + 1;
 	game->enemy.letter = game->you.letter == 'o' ? 'x' : 'o';
 	free(uid);

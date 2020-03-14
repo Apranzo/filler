@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include "../include/libft.h"
 
-void	ft_putnbr_fd(int nbr, int fd)
+void	ft_putnbr_fd(int fd, int nbr)
 {
 	unsigned int n;
 

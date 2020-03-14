@@ -24,18 +24,10 @@ void	*ft_memalloc(size_t size)
 
 void	*ft_tmemalloc(size_t type_size, size_t amount)
 {
-	void *area;
-
-	area = malloc(type_size * amount);
-	if (area)
-		ft_bzero(area, type_size * amount);
-	return (area);
+	return (ft_memalloc(type_size * amount));
 }
 
 void	*ft_tmalloc(size_t type_size, size_t amount)
 {
-	void *area;
-
-	area = malloc(type_size * amount);
-	return (area);
+	return (malloc(type_size * amount));
 }

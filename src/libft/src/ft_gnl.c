@@ -6,7 +6,7 @@
 /*   By: cshinoha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 18:33:09 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/02/27 14:52:48 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/14 21:52:26 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int							ft_gnl(const int fd, char **line)
 	if (fd < 0 || line == NULL || !(ll = init_static_list(&l, fd)) ||
 			BUFF_SIZE <= 0 || !(buff = ft_strnew(BUFF_SIZE)))
 		return (-1);
+//	int ff = open("log.txt",  O_RDWR | O_APPEND | O_CREAT, 0777);
 	while (!ft_strchr(((t_stmt *)ll->content)->res, '\n') &&
 						(ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
@@ -116,5 +117,6 @@ int							ft_gnl(const int fd, char **line)
 	free(buff);
 	if ((ret = get_line(line, ((t_stmt *)ll->content), ret)) <= 0)
 		freenode(ll, &l);
+//	ft_vfprintf(ff, "%s\n", *line);
 	return (ret);
 }

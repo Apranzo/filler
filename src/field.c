@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 20:41:18 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/14 16:43:21 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/14 20:58:33 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,19 @@ int 			field_cnst(int fd, t_game *game)
 	long		i;
 	char 		**raw;
 
-	int ff = open("log",  O_RDWR | O_CREAT, 0666);
 	if ((i = ft_gnl(fd, &line)) <= 0)
 		return (i);
-	ft_vfprintf(ff, "%s\n", line);
 	tmp = ft_strsplit(line, ' ');
 	game->field.height = ft_atoi(tmp[1]);
 	game->field.width = ft_atoi(tmp[2]);
 	ft_freematr(tmp);
 	raw = ft_tmemalloc(sizeof(char *), game->field.height + 1);
 	ft_gnl(fd, &line);
-	ft_vfprintf(ff, "%s\n", line);
 	free(line);
 	i = 0;
 	while (i < game->field.height && ft_gnl(fd, &line) > 0)
 		raw[i++] = line + FILD_OFFSET;
-	if (!(game->field.cels = ft_tmemalloc(sizeof(t_cel*), game->field.height)))
+	if (!(game->field.cels = ft_tmemalloc(sizeof(t_cel*), game->field.height + 1)))
 		ft_error("Malloc error", -1);
 	cls_cnst(raw, game);
 	i = 0;

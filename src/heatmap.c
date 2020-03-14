@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 17:14:19 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/14 20:04:54 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/14 20:05:10 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void 		fill_heatmap(t_game *game)
 		k = 0;
 		while (k < game->field.width)
 		{
-			game->field.cels[i][k]->heat = game->field.height * game->field.width;
+			game->field.cels[i][k]->heat = 2 *
+					ft_max(game->field.height, game->field.width) +
+					1 *	ft_min(game->field.height, game->field.width);
 			if (game->field.cels[i][k]->content == 0)
 				chebyshev(game, game->field.cels[i][k]);
 			k++;

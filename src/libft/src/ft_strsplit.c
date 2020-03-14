@@ -32,7 +32,6 @@ static char			*ft_storeword(char const *s, char c)
 		return (NULL);
 	while (s[++i] && s[i] != c)
 		tmp[i] = s[i];
-	ft_putstr(tmp);
 	return (tmp);
 }
 
