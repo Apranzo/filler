@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:42:59 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/13 20:02:49 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/14 16:18:12 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char				**ft_freematr(char **matr);
 char				*ft_memcpy(void *dst, const void *src, size_t len);
 void				ft_bzero(void *dst, size_t len);
 intmax_t			ft_min(intmax_t x, intmax_t y);
+intmax_t			ft_max(intmax_t x, intmax_t y);
 void				*ft_memset(void *dst, int c, size_t len);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t len);
 void				*ft_memmove(void *dst, const void *src, size_t len);

@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 20:43:54 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/13 21:36:15 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/14 16:22:38 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void 			pr(t_cel ***cls)
 		i++;
 	}
 }
+
 int					main(void) {
 
 	char			*line;
@@ -41,11 +42,11 @@ int					main(void) {
 	plrs_cnst(line, &game);
 	while (1)
 	{
-		if (!field_cnst(0, game))
+		if (!field_cnst(0, &game))
 			break ;
-		fill_heatmap(game);
+		fill_heatmap(&game);
 		pr(game.field.cels);
-		step = fill_piece(game, piece_cnst(0, game));
+		step = fill_piece(game, piece_cnst(0));
 		ft_vfprintf(STDOUT_FILENO, "%d %d\n", step.x, step.y);
 	}
 	return 0;

@@ -44,18 +44,14 @@ t_piece				piece_cnst(int fd)
 	piece.width = xy.y;
 	piece.height = xy.x;
 	i = 0;
-	while (xy.x)
+	while (xy.x--)
 	{
 		xy.y = piece.width;
 		if (ft_gnl(fd, &line) <= 0)
 			ft_error("Piece line is not exists", -1);
-		while (xy.y)
-		{
+		while (xy.y--)
 			if (line[xy.y] == '*')
 				piece.crd[i++] = ft_xynw(xy.x, xy.y);
-			xy.y--;
-		}
-		xy.x--;
 	}
 	!*(piece.crd) && ft_error("Piece is empty", -1);
 	return (piece);

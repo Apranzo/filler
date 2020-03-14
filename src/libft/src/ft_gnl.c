@@ -114,9 +114,7 @@ int							ft_gnl(const int fd, char **line)
 		free(tmp);
 	}
 	free(buff);
-//	if (
-			(ret = get_line(line, ((t_stmt *)ll->content), ret));
-//			<= 0)
-//		freenode(ll, &l);
+	if ((ret = get_line(line, ((t_stmt *)ll->content), ret)) <= 0)
+		freenode(ll, &l);
 	return (ret);
 }

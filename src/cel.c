@@ -6,38 +6,39 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/13 20:42:42 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/13 21:36:55 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/14 16:38:55 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/filler.h"
 
-void 			cls_cnst(char **raw, t_game game)
+void 			cls_cnst(char **raw, t_game *game)
 {
-	int			i;
-	int			k;
+	int			x;
+	int			y;
+	int			n;
 	t_cel		***cls;
 
-	i = 0;
-	while ((cls = game.field.cels) && raw[i])
+	x = 0;
+	while ((cls = game->field.cels) && raw[x])
 	{
-		k = 0;
-		!cls[i] && (cls[i] = ft_tmemalloc(sizeof(t_cel*), game.field.width + 1));
-		while (raw[i][k])
+		y = 0;
+		cls[x] || (cls[x] = ft_tmemalloc(sizeof(t_cel*), game->field.width + 1));
+		while (raw[x][y])
 		{
-			if (!cls[i][k] && !(cls[i][k] = (t_cel*)malloc(sizeof(t_cel))))
+			if (!cls[x][y] && !(cls[x][y] = (t_cel*)ft_memalloc(sizeof(t_cel))))
 				ft_error("Malloc error", -1);
-			cls[i][k]->coord = ft_xynw(i, k);
-			if (raw[i][k] == '.')
-				cls[i][k]->content = 0;
-			else if (ft_tolower(raw[i][k]) == game.enemy.letter)
-				cls[i][k]->content = game.enemy.number;
-			else if (ft_tolower(raw[i][k]) == game.you.letter)
-				cls[i][k]->content = game.you.number;
-//			else
-//				ft_error("Wrong map", -1);
-			k++;
+			n = (cls[x][y]->xy.x = x) + 1 && ((cls[x][y]->xy.y = y)) ;
+			if (raw[x][y] == '.')
+				cls[x][y]->content = 0;
+			else if (ft_tolower(raw[x][y]) == game->enemy.letter)
+				cls[x][y]->content = game->enemy.number;
+			else if (ft_tolower(raw[x][y]) == game->you.letter)
+				cls[x][y]->content = game->you.number;
+			else
+				ft_error("Wrong map", n - n - 1);
+			y++;
 		}
-		i++;
+		x++;
 	}
 }
