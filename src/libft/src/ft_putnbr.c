@@ -14,5 +14,5 @@
 
 void	ft_putnbr(int nbr)
 {
-	ft_putnbr_fd(nbr, 1);
+	ft_putnbr_fd(1, nbr);
 }

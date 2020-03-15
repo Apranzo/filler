@@ -12,7 +12,7 @@
 
 #include "../includes/filler.h"
 
-t_xy		*ft_xynw(unsigned x, unsigned y)
+t_xy		*ft_xynw(int x, int y)
 {
 	t_xy	*new;
 

@@ -6,37 +6,43 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 17:14:19 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/14 20:05:10 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/15 19:28:10 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/filler.h"
 
+int					calc_heat(t_xy beg, t_xy goal)
+{
+	int		 		dx;
+	int		 		dy;
+
+	dx = ft_abs(goal.x - beg.x);
+	dy = ft_abs(goal.y - beg.y);
+	return (2 * ft_max(dx, dy) + 1 * ft_min(dx, dy));
+}
+
 static void 		chebyshev(t_game *game, t_cel *cel)
 {
 
-	long	i;
-	long	k;
-	long	dist;
-	unsigned dx;
-	unsigned dy;
+	int				x;
+	int				y;
+	int				heat;
 
-	i = 0;
-	while (i < game->field.height)
+	x = 0;
+	while (x < game->field.height)
 	{
-		k = 0;
-		while (k < game->field.width)
+		y = 0;
+		while (y < game->field.width)
 		{
-			if (game->field.cels[i][k]->content == game->enemy.number)
+			if (game->field.cels[x][y]->content == game->enemy.number)
 			{
-				dx = ft_abs(i - cel->xy.x);
-				dy = ft_abs(k - cel->xy.y);
-				dist = 2 * ft_max(dx, dy) + 1 * ft_min(dx, dy);
-				cel->heat = dist < cel->heat ? dist : cel->heat;
+				heat = calc_heat(cel->xy, (t_xy){x, y});
+				cel->heat = heat < cel->heat ? heat : cel->heat;
 			}
-			k++;
+			y++;
 		}
-		i++;
+		x++;
 	}
 }
 
@@ -51,9 +57,9 @@ void 		fill_heatmap(t_game *game)
 		k = 0;
 		while (k < game->field.width)
 		{
-			game->field.cels[i][k]->heat = 2 *
-					ft_max(game->field.height, game->field.width) +
-					1 *	ft_min(game->field.height, game->field.width);
+			game->field.cels[i][k]->heat =
+					calc_heat((t_xy) {0, 0},
+							(t_xy) {game->field.height, game->field.width});
 			if (game->field.cels[i][k]->content == 0)
 				chebyshev(game, game->field.cels[i][k]);
 			k++;

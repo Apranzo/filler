@@ -6,7 +6,7 @@
 /*   By: cshinoha <cshinoha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/01 18:15:58 by cshinoha          #+#    #+#             */
-/*   Updated: 2020/03/14 19:44:19 by cshinoha         ###   ########.fr       */
+/*   Updated: 2020/03/15 19:25:20 by cshinoha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,34 @@
 
 typedef	struct		s_xy
 {
-	unsigned		x;
-	unsigned		y;
+	int				x;
+	int				y;
 }					t_xy;
 
 typedef struct		s_player
 {
-	unsigned		number;
+	int				number;
 	char			letter;
 }					t_player;
 
 typedef struct		s_cel
 {
-	unsigned 		content;
+	int		 		content;
 	t_xy			xy;
-	unsigned		heat;
+	int				heat;
 }					t_cel;
 
 typedef struct		s_field
 {
 	t_cel			***cels;
-	unsigned 		width;
-	unsigned 		height;
+	int		 		width;
+	int		 		height;
 }					t_field;
 
 typedef struct		s_piece
 {
-	unsigned 		width;
-	unsigned 		height;
+	int	 			width;
+	int		 		height;
 	t_xy			**crd;
 }					t_piece;
 
@@ -58,6 +58,8 @@ typedef struct		s_game
 
 }					t_game;
 
+
+int					calc_heat(t_xy beg, t_xy goal);
 t_piece				piece_cnst(int fd);
 int		 			field_cnst(int fd, t_game *game);
 void	 			plrs_cnst(char *str, t_game *game);
@@ -66,7 +68,7 @@ void				piece_dstr(t_piece);
 //void 				field_dstr(t_game *game);
 //void	 			plrs_dstr(t_game game);
 void				cls_dstr(t_game game);
-t_xy				*ft_xynw(unsigned x, unsigned y);
+t_xy				*ft_xynw(int x, int y);
 void				fill_heatmap(t_game *game);
 t_xy				fill_piece(t_game game, t_piece piece);
 
