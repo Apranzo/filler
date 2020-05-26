@@ -16,7 +16,7 @@ int 			field_cnst(int fd, t_game *game)
 {
 	char		**tmp;
 	char		*line;
-	long		i;
+	int			i;
 	char 		**raw;
 
 	if ((i = ft_gnl(fd, &line)) <= 0)
@@ -39,8 +39,3 @@ int 			field_cnst(int fd, t_game *game)
 		free(raw[i++] - FILD_OFFSET);
 	return (1);
 }
-
-//void			field_dstr(t_field *field)
-//{
-//
-//}

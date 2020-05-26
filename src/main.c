@@ -34,8 +34,8 @@ void pr(t_cel ***cls, t_xy xy)
 	}
 }
 
-int					main(void) {
-
+int					main(void)
+{
 	char			*line;
 	static t_game	game;
 	t_xy			step;

@@ -135,6 +135,8 @@ SRCNAME		= printf/ft_printf.c				\
 			  ft_strindexof.c			\
 			  ft_lstpush.c				\
 			  ft_error.c				\
+			  ft_min.c					\
+			  ft_max.c					\
 			  ft_abs.c
 
 SRC			= $(addprefix $(SRCDIR)/, $(SRCNAME))
@@ -153,7 +155,9 @@ $(NAME): $(OBJ)
 	-@printf $(CR)$(GREEN)"✓ $(NAME) is created\n"$(EOC)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	-@$(MKDIR) $(OBJDIR)/printf/{types,tools,specs}
+	-@$(MKDIR) $(OBJDIR)/printf/types
+	-@$(MKDIR) $(OBJDIR)/printf/tools
+	-@$(MKDIR) $(OBJDIR)/printf/specs
 	$(GCC) $(WOPT) $(OOPT) $(IOPT) -c $< -o $@
 
 clean:

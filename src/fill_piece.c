@@ -12,7 +12,7 @@
 
 #include "../includes/filler.h"
 
-static long		put_token(const t_game game, t_xy **crd, t_xy xy)
+static int		put_token(const t_game game, t_xy **crd, t_xy xy)
 {
 	int			i;
 	int			heat;
@@ -33,10 +33,10 @@ static long		put_token(const t_game game, t_xy **crd, t_xy xy)
 			heat += game.field.cels[crd[i]->x + xy.x][crd[i]->y + xy.y]->heat;
 		if (!docking && game.field.cels[crd[i]->x + xy.x][crd[i]->y + xy.y]
 				->content == game.you.number)
-			docking = 1;
+			docking++;
 		i++;
 	}
-	return (docking ? heat : docking);
+	return (docking == 1 ? heat : 0);
 }
 
 t_xy 			fill_piece(t_game game, t_piece piece)
